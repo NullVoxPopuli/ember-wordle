@@ -26,7 +26,9 @@ module.exports = function (defaults) {
    * https://github.com/embroider-build/embroider/issues/1020
    *  is resolved
    */
-  return app.toTree();
+  // return app.toTree();
+  // _but_, we can't await import from our public directory without emborider...
+  // so I guess we just can't use v2 addons that import v1 addons for now....
 
   const { Webpack } = require('@embroider/webpack');
 
