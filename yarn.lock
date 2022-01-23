@@ -5128,6 +5128,26 @@ ember-auto-import@^2.2.0, ember-auto-import@^2.2.4:
     typescript-memoize "^1.0.0-alpha.3"
     walk-sync "^3.0.0"
 
+ember-cache-primitive-polyfill@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/ember-cache-primitive-polyfill/-/ember-cache-primitive-polyfill-1.0.1.tgz#a27075443bd87e5af286c1cd8a7df24e3b9f6715"
+  integrity sha512-hSPcvIKarA8wad2/b6jDd/eU+OtKmi6uP+iYQbzi5TQpjsqV6b4QdRqrLk7ClSRRKBAtdTuutx+m+X+WlEd2lw==
+  dependencies:
+    ember-cli-babel "^7.22.1"
+    ember-cli-version-checker "^5.1.1"
+    ember-compatibility-helpers "^1.2.1"
+    silent-error "^1.1.1"
+
+ember-cached-decorator-polyfill@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.npmjs.org/ember-cached-decorator-polyfill/-/ember-cached-decorator-polyfill-0.1.4.tgz#f1e2c65cc78d0d9c4ac0e047e643af477eb85ace"
+  integrity sha512-JOK7kBCWsTVCzmCefK4nr9BACDJk0owt9oIUaVt6Q0UtQ4XeAHmoK5kQ/YtDcxQF1ZevHQFdGhsTR3JLaHNJgA==
+  dependencies:
+    "@glimmer/tracking" "^1.0.4"
+    ember-cache-primitive-polyfill "^1.0.1"
+    ember-cli-babel "^7.21.0"
+    ember-cli-babel-plugin-helpers "^1.1.1"
+
 ember-cli-app-version@^5.0.0:
   version "5.0.0"
   resolved "https://registry.npmjs.org/ember-cli-app-version/-/ember-cli-app-version-5.0.0.tgz#adad17c6f706f419b223707eec66dd1cd28530c3"
@@ -5141,7 +5161,7 @@ ember-cli-babel-plugin-helpers@^1.0.0, ember-cli-babel-plugin-helpers@^1.1.1:
   resolved "https://registry.npmjs.org/ember-cli-babel-plugin-helpers/-/ember-cli-babel-plugin-helpers-1.1.1.tgz#5016b80cdef37036c4282eef2d863e1d73576879"
   integrity sha512-sKvOiPNHr5F/60NLd7SFzMpYPte/nnGkq/tMIfXejfKHIhaiIkYFqX8Z9UFTKWLLn+V7NOaby6niNPZUdvKCRw==
 
-ember-cli-babel@^7.0.0, ember-cli-babel@^7.13.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.22.1, ember-cli-babel@^7.23.0, ember-cli-babel@^7.23.1, ember-cli-babel@^7.26.11, ember-cli-babel@^7.26.6, ember-cli-babel@^7.7.3:
+ember-cli-babel@^7.0.0, ember-cli-babel@^7.13.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.21.0, ember-cli-babel@^7.22.1, ember-cli-babel@^7.23.0, ember-cli-babel@^7.23.1, ember-cli-babel@^7.26.11, ember-cli-babel@^7.26.3, ember-cli-babel@^7.26.6, ember-cli-babel@^7.7.3:
   version "7.26.11"
   resolved "https://registry.npmjs.org/ember-cli-babel/-/ember-cli-babel-7.26.11.tgz#50da0fe4dcd99aada499843940fec75076249a9f"
   integrity sha512-JJYeYjiz/JTn34q7F5DSOjkkZqy8qwFOOxXfE6pe9yEJqWGu4qErKxlz8I22JoVEQ/aBUO+OcKTpmctvykM9YA==
@@ -5215,7 +5235,7 @@ ember-cli-htmlbars@^5.7.1:
     strip-bom "^4.0.0"
     walk-sync "^2.2.0"
 
-ember-cli-htmlbars@^6.0.1:
+ember-cli-htmlbars@^6.0.0, ember-cli-htmlbars@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/ember-cli-htmlbars/-/ember-cli-htmlbars-6.0.1.tgz#5487831d477e61682bc867fd138808269e5d2152"
   integrity sha512-IDsl9uty+MXtMfp/BUTEc/Q36EmlHYj8ZdPekcoRa8hmdsigHnK4iokfaB7dJFktlf6luruei+imv7JrJrBQPQ==
@@ -5479,6 +5499,18 @@ ember-compatibility-helpers@^1.1.2, ember-compatibility-helpers@^1.2.1:
     fs-extra "^9.1.0"
     semver "^5.4.1"
 
+ember-deep-tracked@^1.3.11:
+  version "1.3.11"
+  resolved "https://registry.npmjs.org/ember-deep-tracked/-/ember-deep-tracked-1.3.11.tgz#ccea12b9613ed1fc242a481291cffcc3f5552e69"
+  integrity sha512-F9uVjLAd7btaien3QCTbOucCqH5BT4J+u8PWRa7B1AGxA49yBJEwSU2Cpw2jxW1kpaFtb13Ii9Cq4YpKbqE0Jw==
+  dependencies:
+    "@embroider/macros" "^1.0.0"
+    "@glimmer/tracking" "^1.0.4"
+    ember-cli-babel "^7.26.11"
+    ember-cli-htmlbars "^6.0.1"
+    ember-cli-typescript "^4.2.1"
+    ember-tracked-storage-polyfill "^1.0.0"
+
 ember-destroyable-polyfill@^2.0.3:
   version "2.0.3"
   resolved "https://registry.npmjs.org/ember-destroyable-polyfill/-/ember-destroyable-polyfill-2.0.3.tgz#1673ed66609a82268ef270a7d917ebd3647f11e1"
@@ -5535,6 +5567,16 @@ ember-resolver@^8.0.3:
     ember-cli-version-checker "^5.1.2"
     resolve "^1.20.0"
 
+ember-resources@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.npmjs.org/ember-resources/-/ember-resources-3.2.2.tgz#a9783a323cb5a0875d2f07c778015671608fccb5"
+  integrity sha512-HaAY4tnf+wyz3DZkZFIz4v7ROphFntKPUafCzMaFtKJQwtE2oiFtfcSOzShRkP9fheSDW9/uRlLWAqhns5C95g==
+  dependencies:
+    "@ember/test-waiters" "^3.0.0"
+    ember-cli-babel "^7.26.6"
+    ember-cli-htmlbars "^6.0.0"
+    ember-cli-typescript "^4.2.1"
+
 ember-rfc176-data@^0.3.12, ember-rfc176-data@^0.3.15, ember-rfc176-data@^0.3.17:
   version "0.3.17"
   resolved "https://registry.npmjs.org/ember-rfc176-data/-/ember-rfc176-data-0.3.17.tgz#d4fc6c33abd6ef7b3440c107a28e04417b49860a"
@@ -5556,7 +5598,7 @@ ember-source-channel-url@^3.0.0:
   dependencies:
     node-fetch "^2.6.0"
 
-ember-source@~4.1.0:
+ember-source@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/ember-source/-/ember-source-4.1.0.tgz#0d272202c25f582f360d208002056e42315dac66"
   integrity sha512-y0gKasW2YBYYB+S8GTZjRC9r2xVNI9PySRUXkQH4+WbouXzQtcbKUqc4RVczYboFHLB4qQoz5yNZuIoogVhsLQ==
@@ -5586,6 +5628,21 @@ ember-source@~4.1.0:
     resolve "^1.17.0"
     semver "^7.3.4"
     silent-error "^1.1.1"
+
+ember-template-imports@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/ember-template-imports/-/ember-template-imports-2.0.1.tgz#942fbda0ae9a806eb2f83ebd61743704c4c66d90"
+  integrity sha512-2J0p3NU1hyP9VW6FX7/IAQtJPP0jDg/4zS3E2aYGND7uzuFbGJRgz9Ifze7yKkgWd7EAGnCjDQYCm5jTLu8Fvg==
+  dependencies:
+    babel-import-util "^0.2.0"
+    broccoli-stew "^3.0.0"
+    ember-cli-babel-plugin-helpers "^1.1.1"
+    ember-cli-version-checker "^5.1.2"
+    line-column "^1.0.2"
+    magic-string "^0.25.7"
+    parse-static-imports "^1.1.0"
+    string.prototype.matchall "^4.0.6"
+    validate-peer-dependencies "^1.1.0"
 
 ember-template-lint@^4.0.0:
   version "4.0.0"
@@ -5623,6 +5680,14 @@ ember-template-recast@^6.1.2:
     slash "^3.0.0"
     tmp "^0.2.1"
     workerpool "^6.1.5"
+
+ember-tracked-storage-polyfill@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/ember-tracked-storage-polyfill/-/ember-tracked-storage-polyfill-1.0.0.tgz#84d307a1e4badc5f84dca681db2cfea9bdee8a77"
+  integrity sha512-eL7lZat68E6P/D7b9UoTB5bB5Oh/0aju0Z7PCMi3aTwhaydRaxloE7TGrTRYU+NdJuyNVZXeGyxFxn2frvd3TA==
+  dependencies:
+    ember-cli-babel "^7.26.3"
+    ember-cli-htmlbars "^5.7.1"
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -10791,7 +10856,7 @@ string-width@^2.1.0:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^4.0.0"
 
-string.prototype.matchall@^4.0.5:
+string.prototype.matchall@^4.0.5, string.prototype.matchall@^4.0.6:
   version "4.0.6"
   resolved "https://registry.npmjs.org/string.prototype.matchall/-/string.prototype.matchall-4.0.6.tgz#5abb5dabc94c7b0ea2380f65ba610b3a544b15fa"
   integrity sha512-6WgDX8HmQqvEd7J+G6VtAahhsQIssiZ8zl7zKh1VDMFyL3hRTJP4FTNA3RbIp2TOQ9AYNDcc7e3fH0Qbup+DBg==
@@ -11632,7 +11697,7 @@ validate-npm-package-name@^3.0.0:
   dependencies:
     builtins "^1.0.3"
 
-validate-peer-dependencies@^1.2.0:
+validate-peer-dependencies@^1.1.0, validate-peer-dependencies@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/validate-peer-dependencies/-/validate-peer-dependencies-1.2.0.tgz#22aab93c514f4fda457d36c80685e8b1160d2036"
   integrity sha512-nd2HUpKc6RWblPZQ2GDuI65sxJ2n/UqZwSBVtj64xlWjMx0m7ZB2m9b2JS3v1f+n9VWH/dd1CMhkHfP6pIdckA==
