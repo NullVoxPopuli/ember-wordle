@@ -5092,7 +5092,7 @@ ember-auto-import@^1.11.3:
     walk-sync "^0.3.3"
     webpack "^4.43.0"
 
-ember-auto-import@^2.2.0, ember-auto-import@^2.2.4:
+ember-auto-import@^2.2.0, ember-auto-import@^2.2.4, ember-auto-import@^2.3.0:
   version "2.4.0"
   resolved "https://registry.npmjs.org/ember-auto-import/-/ember-auto-import-2.4.0.tgz#91c4797f08315728086e35af954cb60bd23c14bc"
   integrity sha512-BwF6iTaoSmT2vJ9NEHEGRBCh2+qp+Nlaz/Q7roqNSxl5oL5iMRwenPnHhOoBPTYZvPhcV/KgXR5e+pBQ107plQ==
@@ -5524,6 +5524,18 @@ ember-export-application-global@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/ember-export-application-global/-/ember-export-application-global-2.0.1.tgz#b120a70e322ab208defc9e2daebe8d0dfc2dcd46"
   integrity sha512-B7wiurPgsxsSGzJuPFkpBWnaeuCu2PGpG2BjyrfA1VcL7//o+5RSnZqiCEY326y7qmxb2GoCgo0ft03KBU0rRw==
+
+ember-functions-as-helper-polyfill@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.npmjs.org/ember-functions-as-helper-polyfill/-/ember-functions-as-helper-polyfill-1.0.14.tgz#2bb9dae2afa5fa2acd7eb1e82e53e2fe6d5f4bf3"
+  integrity sha512-cyoNJihrvnll0XEqBjMJp0iPshWyAu0WUoylc5E6rb/ZMdx52UA3iGHBxAKiKGOXtaWGKDj9uJ74ohpq93Rb2Q==
+  dependencies:
+    "@embroider/macros" "^1.0.0"
+    "@glimmer/tracking" "^1.0.4"
+    ember-auto-import "^2.3.0"
+    ember-cli-babel "^7.26.11"
+    ember-cli-htmlbars "^6.0.1"
+    ember-cli-typescript "^4.2.1"
 
 ember-load-initializers@^2.1.2:
   version "2.1.2"

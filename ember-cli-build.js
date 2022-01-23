@@ -39,9 +39,13 @@ module.exports = function (defaults) {
     staticModifiers: true,
     staticComponents: true,
     // splitAtRoutes: ['route.name'], // can also be a RegExp
-    // packagerOptions: {
-    //    webpackConfig: { }
-    // }
+    packagerOptions: {
+      webpackConfig: {
+        // This is a slow option, but since we're using bleeding edge / pre-release everything
+        // it's important to see what the transformed code looks like
+        devtool: 'source-map',
+      },
+    },
     extraPublicTrees: [],
   });
 };

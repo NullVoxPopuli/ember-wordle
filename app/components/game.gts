@@ -1,46 +1,21 @@
-import Component from '@glimmer/component';
-import { service } from '@ember/service';
-import { cached } from '@glimmer/tracking';
-import { tracked } from 'ember-deep-tracked';
-
-import { words } from './words';
+import Header from './header';
+import Board from './board';
 
 interface Args {
   // year-month-day
   day: string;
 }
 
-export default class Game extends Component<Args> {
-  wordList = words(this);
+<template>
+  <Header />
 
-  @cached
-  get todaysWord() {
-    let { answers }  = this.wordList;
+  <section class="grid gap-4 mx-auto">
+    <Board @day={{@day}} />
 
-    let index = toDate(this.args.day).getTime() % answers.length;
+    <ul class="list-disc pl-4">
+      <li>Use your keyboard to guess letters</li>
+      <li>Press <kbd>Enter</kbd> to submit your guess</li>
+    </ul>
+  </section>
+</template>
 
-    return answers[index];
-  }
-
-  @cached
-  get state() {
-    return initialStateFor(this.args.day);
-  }
-
-
-  <template>
-    {{this.todaysWord}}
-
-  </template>
-}
-
-function initialStateFor(day) {
-  return {};
-}
-
-function toDate(dayString: string) {
-  let [year, month, day] = dayString.split('-');
-  let date = new Date(year, month, day);
-
-  return date;
-}
