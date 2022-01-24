@@ -1,12 +1,21 @@
 import { tracked } from 'ember-deep-tracked';
 
-import { focusNext } from '../focus';
+import { focusNext, focusPrevious } from '../focus';
 import { isAttemptComplete, wordFor } from './queries';
 
 import type { Attempt, Letter } from './types';
 
 export function handleKeyDown(letter: Letter, keyEvent: KeyboardEvent) {
   let { key } = keyEvent;
+
+  if (key === 'Backspace') {
+    keyEvent.preventDefault();
+    letter.value = '';
+
+    focusPrevious();
+
+    return;
+  }
 
   if (/^[a-z]$/.test(key)) {
     keyEvent.preventDefault();
@@ -20,12 +29,6 @@ export function handleKeyDown(letter: Letter, keyEvent: KeyboardEvent) {
   if (key.length === 1) {
     // prevent numbers, symbols, etc
     keyEvent.preventDefault();
-  }
-
-  if (key === 'Backspace') {
-    letter.value = '';
-
-    return;
   }
 }
 
@@ -101,7 +104,7 @@ export function guess(attempt: Attempt, { answer, all, onError, onWin }: GuessOp
   attempt.isFrozen = true;
 
   if (word === answer) {
-    console.log("Congratulations");
+    console.log('Congratulations');
 
     document.activeElement?.blur();
     onWin();

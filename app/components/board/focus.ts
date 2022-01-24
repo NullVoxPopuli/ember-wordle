@@ -22,3 +22,21 @@ export function focusNext() {
     nextLetter.focus();
   }
 }
+
+export function focusPrevious() {
+  let active = document.activeElement;
+
+  let lettersQuery = document.querySelectorAll('input:not(:disabled)');
+  let letters = [...lettersQuery];
+
+  if (!active) {
+    return;
+  }
+
+  let index = letters.indexOf(active);
+  let previousLetter = letters[index - 1];
+
+  if (previousLetter instanceof HTMLElement) {
+    previousLetter.focus();
+  }
+}
