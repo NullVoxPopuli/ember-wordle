@@ -24,7 +24,9 @@ const Letter = <template>
   <input
     disabled={{not @active}}
     class="
-      border border-2 border-gray-300 h-16 w-16 text-center text-3xl uppercase
+      border border-2 border-gray-300
+      h-12 w-12 sm:h-16 sm:w-16
+      text-center text-3xl uppercase
       rounded
       outline-none
       focus:ring-offset-2 focus:ring-4 ring-blue-400 ring-offset-slate-50
@@ -32,7 +34,6 @@ const Letter = <template>
       {{colorForLetter @letter @attempt}}
       {{if @attempt.isFrozen 'font-bold text-white' 'text-black'}}
     "
-    pattern="[a-z]{1}"
     value={{@letter.value}}
     {{on 'keydown' (fn handleKeyDown @letter)}}
   >
@@ -90,7 +91,7 @@ export default class Board extends Component<Args> {
       {{/if}}
     </div>
 
-    <div class="grid gap-4 relative">
+    <div class="grid gap-4 relative p-4 sm:p-0">
       <Success @show={{this.success}} />
 
       {{#let (initialStateFor @day) as |board|}}
