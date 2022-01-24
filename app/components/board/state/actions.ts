@@ -1,12 +1,17 @@
 import { tracked } from 'ember-deep-tracked';
 
 import { focusNext, focusPrevious } from '../focus';
-import { isAttemptComplete, wordFor } from './queries';
+import { isAttemptComplete, isMobile, wordFor } from './queries';
 
 import type { Attempt, Letter } from './types';
 
 export function handleKeyDown(letter: Letter, keyEvent: KeyboardEvent) {
   let { key } = keyEvent;
+
+  // Older android browsers...
+  if (key === 'Unidentified') {
+    return;
+  }
 
   if (key === 'Backspace') {
     keyEvent.preventDefault();
@@ -17,10 +22,10 @@ export function handleKeyDown(letter: Letter, keyEvent: KeyboardEvent) {
     return;
   }
 
-  if (/^[a-z]$/.test(key)) {
+  if (/^[a-z]$/.test(key.toLowerCase())) {
     keyEvent.preventDefault();
 
-    letter.value = key;
+    letter.value = key.toLowerCase();
     focusNext();
 
     return;
@@ -29,6 +34,14 @@ export function handleKeyDown(letter: Letter, keyEvent: KeyboardEvent) {
   if (key.length === 1) {
     // prevent numbers, symbols, etc
     keyEvent.preventDefault();
+  }
+}
+
+export function handleInput(letter: Letter, keyEvent: KeyboardEvent) {
+  if (isMobile()) {
+    keyEvent.key = keyEvent.data;
+
+    return handleKeyDown(letter, keyEvent);
   }
 }
 

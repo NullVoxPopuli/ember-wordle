@@ -9,7 +9,7 @@ import Success from './success';
 import { toBase64, findTodaysWord } from './utils';
 import { words } from './words';
 import { isAttemptActive, colorForLetter } from './state/queries';
-import { handleKeyDown, initialStateFor, guess } from './state/actions';
+import { handleKeyDown, handleInput, initialStateFor, guess } from './state/actions';
 
 interface Args {
   // year-month-day
@@ -18,6 +18,7 @@ interface Args {
 
 
 const not = (item) => !item;
+const l = console.log;
 
 const Letter = <template>
 
@@ -36,6 +37,7 @@ const Letter = <template>
     "
     value={{@letter.value}}
     {{on 'keydown' (fn handleKeyDown @letter)}}
+    {{on 'input' (fn handleInput @letter)}}
   >
 
 </template>;
