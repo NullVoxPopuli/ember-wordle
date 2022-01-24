@@ -109,7 +109,7 @@ export function guess(attempt: Attempt, { answer, all, onError, onWin }: GuessOp
   let answerOccurances = getLetterOccurances(answer);
 
   // Are any letters in the correct position?
-  for (let letter of attempt.letters) {
+  attempt.letters.forEach((letter, index) => {
     let occurances = answerOccurances[letter.value];
 
     if (occurances) {
@@ -117,11 +117,11 @@ export function guess(attempt: Attempt, { answer, all, onError, onWin }: GuessOp
 
       letter.isInAnswer = true;
 
-      if (answer.indexOf(letter.value) === word.indexOf(letter.value)) {
+      if (answer[index] === word[index]) {
         letter.isInCorrectPosition = true;
       }
     }
-  }
+  });
 
   attempt.isFrozen = true;
 
