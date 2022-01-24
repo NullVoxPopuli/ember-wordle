@@ -4,21 +4,20 @@ import { focusNext } from './focus';
 
 import type { Attempt, Board, Letter } from './types';
 
-export function toDate(dayString: string) {
-  let [year, month, day] = dayString.split('-').map((x) => parseInt(x, 10));
-  let date = new Date(year, month - 1, day, 0, 0, 0, 0);
+export function colorForLetter(letter: Letter, attempt: Attempt) {
+  if (attempt.isFrozen) {
+    if (letter.isInCorrectPosition) {
+      return 'bg-green-400';
+    }
 
-  return date;
-}
+    if (letter.isInAnswer) {
+      return 'bg-yellow-500';
+    }
 
-export function findTodaysWord(dayString: string, potentials: string[]) {
-  let index = toDate(dayString).getTime() % potentials.length;
+    return 'bg-gray-400';
+  }
 
-  return potentials[index];
-}
-
-export function preventDefault(e: Event) {
-  e.preventDefault();
+  return 'disabled:bg-gray-100';
 }
 
 export function handleKeyDown(keyEvent: KeyboardEvent) {

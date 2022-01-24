@@ -5,11 +5,11 @@ import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 
 
-import { toBase64 } from './utils';
+import { toBase64, findTodaysWord } from './utils';
 import { words } from './words';
 import {
-  handleKey, handleKeyDown, initialStateFor, isAttemptComplete, findTodaysWord,
-  isAttemptActive,
+  handleKey, handleKeyDown, initialStateFor, isAttemptComplete,
+  isAttemptActive, colorForLetter,
   wordFor, guess,
 } from './state-utils';
 
@@ -26,14 +26,13 @@ const Letter = <template>
   <input
     disabled={{not @active}}
     class="
-      border border-2 border-gray-300 h-16 w-16 text-center text-2xl
+      border border-2 border-gray-300 h-16 w-16 text-center text-3xl uppercase
       rounded
       outline-none
       focus:ring-offset-2 focus:ring-4 ring-blue-400 ring-offset-slate-50
       focus:border-1 focus:border-gray-100
-      {{if @attempt.isFrozen 'text-bold' 'disabled:bg-gray-100'}}
-      {{if @letter.isInAnswer 'bg-yellow-300'}}
-      {{if @letter.isInCorrectPosition 'bg-green-300'}}
+      {{colorForLetter @letter @attempt}}
+      {{if @attempt.isFrozen 'text-bold text-white' 'text-black'}}
     "
     pattern="[a-z]{1}"
     value={{@letter.value}}
@@ -67,11 +66,6 @@ export default class Board extends Component<Args> {
     return findTodaysWord(this.args.day, this.wordList.answers);
   }
 
-  @cached
-  get board() {
-    return initialStateFor(this.args.day);
-  }
-
   tryGuess = (attempt, submitEvent) => {
     submitEvent.preventDefault();
 
@@ -98,7 +92,7 @@ export default class Board extends Component<Args> {
     </div>
 
     <div class="grid gap-4">
-      {{#let this.board as |board|}}
+      {{#let (initialStateFor @day) as |board|}}
 
         {{#each board as |attempt|}}
 
