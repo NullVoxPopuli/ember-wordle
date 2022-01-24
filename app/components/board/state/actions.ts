@@ -39,6 +39,9 @@ export function handleKeyDown(letter: Letter, keyEvent: KeyboardEvent) {
 
 export function handleInput(letter: Letter, keyEvent: KeyboardEvent) {
   if (isMobile()) {
+    // Hack for old android
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     keyEvent.key = keyEvent.data;
 
     return handleKeyDown(letter, keyEvent);
@@ -103,9 +106,15 @@ export function guess(attempt: Attempt, { answer, all, onError, onWin }: GuessOp
     return;
   }
 
+  let answerOccurances = getLetterOccurances(answer);
+
   // Are any letters in the correct position?
   for (let letter of attempt.letters) {
-    if (answer.includes(letter.value)) {
+    let occurances = answerOccurances[letter.value];
+
+    if (occurances) {
+      answerOccurances[letter.value]--;
+
       letter.isInAnswer = true;
 
       if (answer.indexOf(letter.value) === word.indexOf(letter.value)) {
@@ -117,9 +126,14 @@ export function guess(attempt: Attempt, { answer, all, onError, onWin }: GuessOp
   attempt.isFrozen = true;
 
   if (word === answer) {
-    console.log('Congratulations');
+    console.debug('Congratulations');
 
-    document.activeElement?.blur();
+    let element = document.activeElement;
+
+    if (element instanceof HTMLElement) {
+      element.blur();
+    }
+
     onWin();
 
     return;
@@ -129,4 +143,14 @@ export function guess(attempt: Attempt, { answer, all, onError, onWin }: GuessOp
   requestAnimationFrame(() => {
     focusNext();
   });
+}
+
+function getLetterOccurances(word: string) {
+  let result: Record<string, number> = {};
+
+  for (let letter of word.split('')) {
+    result[letter] = (result[letter] || 0) + 1;
+  }
+
+  return result;
 }
