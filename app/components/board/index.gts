@@ -4,14 +4,12 @@ import { tracked, cached } from '@glimmer/tracking';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 
+import Success from './success';
 
 import { toBase64, findTodaysWord } from './utils';
 import { words } from './words';
-import {
-  handleKey, handleKeyDown, initialStateFor, isAttemptComplete,
-  isAttemptActive, colorForLetter,
-  wordFor, guess,
-} from './state-utils';
+import { isAttemptActive, colorForLetter } from './state/queries';
+import { handleKeyDown, initialStateFor, guess } from './state/actions';
 
 interface Args {
   // year-month-day
@@ -32,12 +30,11 @@ const Letter = <template>
       focus:ring-offset-2 focus:ring-4 ring-blue-400 ring-offset-slate-50
       focus:border-1 focus:border-gray-100
       {{colorForLetter @letter @attempt}}
-      {{if @attempt.isFrozen 'text-bold text-white' 'text-black'}}
+      {{if @attempt.isFrozen 'font-bold text-white' 'text-black'}}
     "
     pattern="[a-z]{1}"
     value={{@letter.value}}
-    {{on 'keydown' handleKeyDown}}
-    {{on 'keyup' (fn handleKey @letter)}}
+    {{on 'keydown' (fn handleKeyDown @letter)}}
   >
 
 </template>;
@@ -58,6 +55,7 @@ const Row = <template>
 
 export default class Board extends Component<Args> {
   @tracked message;
+  @tracked success = false;
 
   wordList = words(this);
 
@@ -71,6 +69,7 @@ export default class Board extends Component<Args> {
 
     guess(attempt, {
       onError: this.say,
+      onWin: () => (this.success = true),
       answer: this.todaysWord,
       all: this.wordList.all
     });
@@ -91,7 +90,9 @@ export default class Board extends Component<Args> {
       {{/if}}
     </div>
 
-    <div class="grid gap-4">
+    <div class="grid gap-4 relative">
+      <Success @show={{this.success}} />
+
       {{#let (initialStateFor @day) as |board|}}
 
         {{#each board as |attempt|}}
@@ -119,6 +120,7 @@ export default class Board extends Component<Args> {
 
       {{log "Don't be a cheater" (toBase64 this.todaysWord)}}
     </div>
+
   </template>
 }
 

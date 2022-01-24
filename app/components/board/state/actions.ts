@@ -1,31 +1,18 @@
 import { tracked } from 'ember-deep-tracked';
 
-import { focusNext } from './focus';
+import { focusNext } from '../focus';
+import { isAttemptComplete, wordFor } from './queries';
 
-import type { Attempt, Board, Letter } from './types';
+import type { Attempt, Letter } from './types';
 
-export function colorForLetter(letter: Letter, attempt: Attempt) {
-  if (attempt.isFrozen) {
-    if (letter.isInCorrectPosition) {
-      return 'bg-green-400';
-    }
-
-    if (letter.isInAnswer) {
-      return 'bg-yellow-500';
-    }
-
-    return 'bg-gray-400';
-  }
-
-  return 'disabled:bg-gray-100';
-}
-
-export function handleKeyDown(keyEvent: KeyboardEvent) {
+export function handleKeyDown(letter: Letter, keyEvent: KeyboardEvent) {
   let { key } = keyEvent;
 
   if (/^[a-z]$/.test(key)) {
-    // we don't want to let a letter be typed until keyup
     keyEvent.preventDefault();
+
+    letter.value = key;
+    focusNext();
 
     return;
   }
@@ -34,22 +21,16 @@ export function handleKeyDown(keyEvent: KeyboardEvent) {
     // prevent numbers, symbols, etc
     keyEvent.preventDefault();
   }
-}
-
-export function handleKey(letter: Letter, keyEvent: KeyboardEvent) {
-  let { key } = keyEvent;
 
   if (key === 'Backspace') {
     letter.value = '';
 
     return;
   }
-
-  if (/^[a-z]$/.test(key)) {
-    letter.value = key;
-    focusNext();
-  }
 }
+
+const NUM_LETTERS = 5;
+const NUM_GUESSES = 6;
 
 /**
  * 5 columns (5 letter words)
@@ -58,54 +39,33 @@ export function handleKey(letter: Letter, keyEvent: KeyboardEvent) {
 export function initialStateFor(day: string) {
   console.debug(`Generating blank game board for ${day}`);
 
-  let grid = Array.from({ length: 6 }, () => {
-    return {
+  let grid = [];
+
+  for (let attemptIndex = 0; attemptIndex < NUM_GUESSES; attemptIndex++) {
+    let attempt = {
+      _debugId: attemptIndex,
       isFrozen: false,
-      letters: Array.from({ length: 5 }, () => ({
+      letters: Array.from({ length: NUM_LETTERS }, () => ({
         value: '',
         isInAnswer: false,
         isInCorrectPosition: false,
       })),
     };
-  });
+
+    grid.push(attempt);
+  }
 
   return tracked(grid);
 }
 
-export function isAttemptComplete(attempt: Attempt) {
-  return attempt.letters.every((letter) => letter.value);
-}
-
-export function isAttemptActive(board: Board, attempt: Attempt) {
-  let index = board.indexOf(attempt);
-
-  // How in the world can this be -1?
-  if (index < 0) {
-    index = 0;
-  }
-
-  let lastFrozenIndex = -1;
-
-  for (let i = board.length - 1; i >= 0; i--) {
-    if (board[i].isFrozen) {
-      lastFrozenIndex = i;
-    }
-  }
-
-  return index === lastFrozenIndex + 1;
-}
-
-export function wordFor(attempt: Attempt) {
-  return attempt.letters.map((letter) => letter.value).join('');
-}
-
 interface GuessOptions {
   onError: (msg: string) => void;
+  onWin: () => void;
   answer: string;
   all: string[];
 }
 
-export function guess(attempt: Attempt, { answer, all, onError }: GuessOptions) {
+export function guess(attempt: Attempt, { answer, all, onError, onWin }: GuessOptions) {
   if (!answer) {
     // how likely is it that someone submits something before we figure out what the word is?
     onError('Something went wrong, there is no word today');
@@ -139,6 +99,15 @@ export function guess(attempt: Attempt, { answer, all, onError }: GuessOptions) 
   }
 
   attempt.isFrozen = true;
+
+  if (word === answer) {
+    console.log("Congratulations");
+
+    document.activeElement?.blur();
+    onWin();
+
+    return;
+  }
 
   // Gotta give time for the next row to un-disable
   requestAnimationFrame(() => {
