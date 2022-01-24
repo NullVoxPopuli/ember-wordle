@@ -38,6 +38,7 @@ const Letter = <template>
     value={{@letter.value}}
     {{on 'keydown' (fn handleKeyDown @letter)}}
     {{on 'input' (fn handleInput @letter)}}
+    ...attributes
   >
 
 </template>;
@@ -98,7 +99,7 @@ export default class Board extends Component<Args> {
 
       {{#let (initialStateFor @day) as |board|}}
 
-        {{#each board as |attempt|}}
+        {{#each board as |attempt aIndex|}}
 
           <Row
             @board={{board}}
@@ -106,12 +107,13 @@ export default class Board extends Component<Args> {
             @tryGuess={{fn this.tryGuess attempt}}
             as |isActive|
           >
-            {{#each attempt.letters as |letter|}}
+            {{#each attempt.letters as |letter lIndex|}}
 
               <Letter
                 @attempt={{attempt}}
                 @letter={{letter}}
                 @active={{isActive}}
+                aria-label="Letter {{lIndex}} for Attempt {{aIndex}}"
               />
 
             {{/each}}
