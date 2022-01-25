@@ -106,22 +106,12 @@ export function guess(attempt: Attempt, { answer, all, onError, onWin }: GuessOp
     return;
   }
 
-  let answerOccurances = getLetterOccurances(answer);
+  let answerOccurrences = getLetterOccurrences(answer);
 
   // Are any letters in the correct position?
-  attempt.letters.forEach((letter, index) => {
-    let occurances = answerOccurances[letter.value];
-
-    if (occurances) {
-      answerOccurances[letter.value]--;
-
-      letter.isInAnswer = true;
-
-      if (answer[index] === word[index]) {
-        letter.isInCorrectPosition = true;
-      }
-    }
-  });
+  checkOccurrences(attempt, answer, answerOccurrences, true);
+  // Are there any occurrences remaining that are in the wrong position?
+  checkOccurrences(attempt, answer, answerOccurrences, false);
 
   attempt.isFrozen = true;
 
@@ -145,7 +135,7 @@ export function guess(attempt: Attempt, { answer, all, onError, onWin }: GuessOp
   });
 }
 
-function getLetterOccurances(word: string) {
+function getLetterOccurrences(word: string) {
   let result: Record<string, number> = {};
 
   for (let letter of word.split('')) {
@@ -153,4 +143,27 @@ function getLetterOccurances(word: string) {
   }
 
   return result;
+}
+
+function checkOccurrences(
+  attempt: Attempt,
+  answer: string,
+  answerOccurrences: Record<string, number>,
+  checkPosition: boolean
+) {
+  attempt.letters.forEach((letter, index) => {
+    let occurrences = answerOccurrences[letter.value];
+    let word = wordFor(attempt);
+
+    if (occurrences) {
+      if (checkPosition && answer[index] === word[index]) {
+        letter.isInCorrectPosition = true;
+        answerOccurrences[letter.value]--;
+        letter.isInAnswer = true;
+      } else if (!checkPosition) {
+        answerOccurrences[letter.value]--;
+        letter.isInAnswer = true;
+      }
+    }
+  });
 }
